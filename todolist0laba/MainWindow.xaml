@@ -1,50 +1,84 @@
 ﻿<Window x:Class="todolist0laba.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Мой To-Do List" 
+        Title="Мой To-Do List с Календарем" 
         Height="600" 
-        Width="800">
+        Width="900">
 
-    <StackPanel Margin ="20">
-        <TextBlock Text="My To-Do List"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   Margin="10"
-                   HorizontalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBox x:Name="NewTaskTextBox"
-                     Width="200"
-                     Height="25"
-                     Text="Введите новую задачу"/>
-            <Button x:Name="AddButton"
-                    Content="Добавить"
-                    Margin="10, 0, 0, 0"
-                    Click="AddButton_Click"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Background="LightBlue" Margin="10">
+            <TextBlock Text="Календарь" 
+                       FontSize="18" 
+                       FontWeight="Bold" 
+                       Margin="10" 
+                       HorizontalAlignment="Center"/>
+
+            <Calendar x:Name="TasksCalendar" 
+                      Margin="10"
+                      SelectedDatesChanged="TasksCalendar_SelectedDatesChanged"/>
+
+            <TextBlock Text="Задачи на выбранную дату:" 
+                       FontWeight="Bold" 
+                       Margin="10,20,10,5"/>
+
+            <TextBlock x:Name="SelectedDateText" 
+                       Text="{Binding ElementName=TasksCalendar, Path=SelectedDate, StringFormat='dd MMMM yyyy'}" 
+                       Margin="10" 
+                       FontSize="12" 
+                       Foreground="DarkBlue"/>
         </StackPanel>
 
-        <TextBlock Text="Список задач:" 
-                   FontSize="16" 
-                   FontWeight="Bold" 
-                   Margin="10,20,10,5"/>
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="Мой To-Do List" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Margin="10" 
+                       HorizontalAlignment="Center"/>
 
-        <ListBox x:Name="TasksListBox" 
-                 Height="300" 
-                 Margin="10">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <CheckBox Content="{Binding Title}"
-                              IsChecked="{Binding IsCompleted}"
-                              Margin="5"
-                              FontSize="14"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBox x:Name="NewTaskTextBox" 
+                         Width="200" 
+                         Height="25" 
+                         Text="Введите новую задачу"/>
+                <Button x:Name="AddButton" 
+                        Content="Добавить" 
+                        Margin="10,0,0,0"
+                        Click="AddButton_Click"/>
+            </StackPanel>
 
+            <TextBlock Text="Список задач:" 
+                       FontSize="16" 
+                       FontWeight="Bold" 
+                       Margin="10,20,10,5"/>
 
-        <Button x:Name="DeleteButton" 
-                Content="Удалить выбранную" 
-                Margin="10"
-                Click="DeleteButton_Click"/>
-    </StackPanel>
+            <ListBox x:Name="TasksListBox" 
+                     Height="300" 
+                     Margin="10">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <CheckBox Content="{Binding Title}" 
+                                      IsChecked="{Binding IsCompleted}"
+                                      FontSize="14"/>
+                            <TextBlock Text="{Binding DueDate, StringFormat='Дата: {0:dd.MM.yyyy}'}"
+                                       FontSize="10"
+                                       Foreground="Gray"
+                                       Margin="20,2,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
+            <Button x:Name="DeleteButton" 
+                    Content="Удалить выбранную" 
+                    Margin="10"
+                    Click="DeleteButton_Click"/>
+        </StackPanel>
+
+    </Grid>
 </Window>
