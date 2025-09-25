@@ -15,6 +15,7 @@ namespace todolist0laba
             tasks.Add("Сделать лабу номер 0");
             tasks.Add("поесть");
             tasks.Add("добавить даты и т.д");
+            tasks.Add("проверить работу коммитов в VS");
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
