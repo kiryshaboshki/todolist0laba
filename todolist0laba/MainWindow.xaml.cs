@@ -65,7 +65,28 @@ namespace todolist0laba
             if (TasksCalendar.SelectedDate.HasValue)
             {
                 SelectedDateText.Text = TasksCalendar.SelectedDate.Value.ToString("dd.MM.yyyy");
+
+                ShowTasksForDate(TasksCalendar.SelectedDate.Value);
+            }
+        }
+
+        private void ShowAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowAllTasks();
+            SelectedDateText.Text = "Все ЗАдачи";
+        }
+        private void ShowTasksForDate(DateTime date)
+        {
+            displayedTasks.Clear();
+
+            foreach (var task in allTasks)
+            {
+                if (task.DueDate.Date == date.Date)
+                {
+                    displayedTasks.Add(task);
+                }
             }
         }
     }
+
 }
