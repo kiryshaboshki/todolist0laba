@@ -40,15 +40,47 @@ namespace todolist0laba
         {
             if (!string.IsNullOrWhiteSpace(NewTaskTextBox.Text))
             {
+                DateTime selectedDate = TasksCalendar.SelectedDate ?? DateTime.Today;
+
+                if (selectedDate < DateTime.Today.Date)
+                {
+                    var result = MessageBox.Show(
+                        "Данная дата уже прошла, добавить новую задачу на сегодня?",
+                        "прошедшая дата",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        selectedDate = DateTime.Today;
+                        TasksCalendar.SelectedDate = DateTime.Today;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
                 var newTask = new TaskItem
                 {
                     Title = NewTaskTextBox.Text,
-                    DueDate = TasksCalendar.SelectedDate ?? DateTime.Today
+                    DueDate = selectedDate,
                 };
+
                 allTasks.Add(newTask);
-                displayedTasks.Add(newTask);
+
+                if (TasksCalendar.SelectedDate == null)
+                {
+                    displayedTasks.Add(newTask);
+                }
+                else
+                {
+                    ShowTasksForDate(selectedDate);
+                }
+
                 NewTaskTextBox.Text = "";
             }
+
+
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
